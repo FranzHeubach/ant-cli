@@ -1,4 +1,4 @@
-# AUV Navigation Testbed
+# AUV Navigation Testbed Toolchain
 
 ![Gazebo World](images/gazebo-world.png)
 
