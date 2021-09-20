@@ -1,5 +1,7 @@
 # AUV Navigation Testbed
 
+![Gazebo World](images/gazebo-world.png)
+
 This python package provides a few tools for working with rasters with regards to:
  * Create a Gazebo world with collada mesh from a GeoTIFF raster file. The colormap overlay on the mesh is customizable to any color map matplotlib supports.
  * Adding coherent noise to existing terrain
