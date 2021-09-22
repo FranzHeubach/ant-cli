@@ -16,7 +16,7 @@ import matplotlib.ticker as ticker
 import numpy as np
 import click
 
-import ant
+from ant import ant
 
 
 @click.group(chain=True)
