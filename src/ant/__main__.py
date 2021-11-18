@@ -12,6 +12,7 @@ from rasterio.transform import Affine
 from stl.mesh import Mesh
 from collada import Collada
 import matplotlib.pyplot as plt
+import matplotlib.cm
 import matplotlib.ticker as ticker
 import numpy as np
 import click
@@ -308,6 +309,23 @@ def geotiff2gazebo(world_size, ros_gazebo_package_folder, target_mesh_resolution
     ant.create_open_gazebo_world_script(name, path_open_world_script, ros_gazebo_package_folder, worlds_folder, models_folder, overwrite=overwrite)
     print('Done')
     print(f'World can be launched with "bash {path_open_world_script}"')
+
+
+
+@cli.command(name="raster-as-image", help="Export raster as image.")
+@click.option('--colormap', default='viridis')
+@click.argument('input-raster', type=click.Path(exists=True))
+@click.argument('output-image', type=click.Path())
+def raster_as_image_command(colormap, input_raster, output_image):
+    input_raster = Path(input_raster).resolve()
+    output_image = Path(output_image).resolve()
+
+    with rio.open(input_raster) as src:
+        arr = src.read(1)
+        cmap = matplotlib.cm.get_cmap(colormap)
+        norm = plt.Normalize(vmin=arr.min(), vmax=arr.max())
+        image = cmap(norm(arr))
+        plt.imsave(output_image, image)
 
 
 if __name__ == '__main__':
