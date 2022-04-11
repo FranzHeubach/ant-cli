@@ -311,6 +311,18 @@ def geotiff2gazebo(world_size, ros_gazebo_package_folder, target_mesh_resolution
     print(f'World can be launched with "bash {path_open_world_script}"')
 
 
+@cli.command(name="prepare-raster", help="Translate and scale raster to origin.")
+@click.option('--world-size', default=1000., prompt='Output raster size in meters', help='The target world size for the raster.')
+@click.argument('input-raster', type=click.Path(exists=True))
+@click.argument('output-raster', type=click.Path())
+def prepare_raster_command(world_size, input_raster, output_raster):
+    input_raster = Path(input_raster).resolve()
+    output_raster = Path(output_raster).resolve()
+    with rio.open(input_raster) as src:
+        raster = ant.transform_raster_to_origin(src, world_size)
+        raster = ant.crop_raster_to_square(raster)
+    ant.save_raster(raster, output_raster)
+
 
 @cli.command(name="raster-as-image", help="Export raster as image.")
 @click.option('--colormap', default='viridis')

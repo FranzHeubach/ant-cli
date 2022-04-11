@@ -101,6 +101,8 @@ def resample_raster(src, x_resolution_factor, y_resolution_factor, resampling=No
     x_resolution_factor). Therefore, the output raster is not guaranteed to
     satisfy the resolution factor exactly.
 
+    Warning: Resampling does not handle no data areas correctly.
+
     :param      src:                  The source rasterio data set.
     :type       src:                  rasterio dataset
     :param      x_resolution_factor:  The factor the x resolution is multiplied
@@ -151,6 +153,45 @@ def resample_raster(src, x_resolution_factor, y_resolution_factor, resampling=No
         transform=transform,
     )
     dst.write(data,1)
+    return dst
+
+
+def transform_raster_to_origin(src, size):
+    """
+    Transform raster to origin and scale to a specific size.
+
+    The output raster will be square, will be scaled to size, and have the
+    bottom left corner at the origin. If there are no data values, they will be
+    maintained in the output dataset by transfering the mask information.
+
+    :param      src:   The source raster. Must be square.
+    :type       src:   rasterio dataset
+    :param      size:  The size of the ouput raster.
+    :type       size:  float
+
+    :returns:   The output raster
+    :rtype:     rasterio datasets
+    """
+    data = src.read(1)
+    x_pixel_size = size / data.shape[1]
+    y_pixel_size = size / data.shape[0]
+
+    transform = rio.transform.from_origin(
+        west=0,
+        north=size,
+        xsize=x_pixel_size,
+        ysize=y_pixel_size)
+
+    dst = MemoryFile().open(
+        driver='GTiff',
+        height=data.shape[0],
+        width=data.shape[1],
+        count=1,
+        dtype=data.dtype,
+        transform=transform)
+
+    dst.write(data,1)
+    dst.write_mask(src.read_masks(1))
     return dst
 
 
