@@ -46,10 +46,17 @@ Clone the package:
 git clone https://github.com/franzheubach/ant-cli
 ```
 
+If installing on Linux the prerequisites for Pillow have to be installed. On Debian derived platforms like Ubuntu, installing the `jpeg` package enables the install. More information can be found on the [website](https://pillow.readthedocs.io/en/stable/installation.html#external-libraries) for Pillow.
+
+```bash
+sudo apt install libjpeg-dev
+
+```
+
 Install the package (requires python >= 3.6):
 
 ```
-python -m pip install ant-cli
+cd ant-cli && python -m pip install .
 ```
 
 Print available commands:
