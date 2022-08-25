@@ -1,6 +1,7 @@
 import shutil
 import json
 import sys
+import os
 import math
 from math import floor, ceil
 from pathlib import Path
@@ -273,6 +274,10 @@ def geotiff2gazebo(world_size, ros_gazebo_package_folder, target_mesh_resolution
     if path_model_directory.exists() and not overwrite:
         print('Model directory already exists. Use --overwrite to enable overwriting previous worlds.')
         sys.exit(1)
+    if not textures_folder.exists():
+        os.makedirs(textures_folder)
+    if not worlds_folder.exists():
+        os.makedirs(worlds_folder)
     print('Create model directory..')
     path_model_directory.mkdir(parents=True, exist_ok=True)
     print('Copying over source geotiff raster..')
