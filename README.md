@@ -35,8 +35,14 @@ A good part of the package is still under active development. These are some of 
 
 ## Requirements
 
-Other than the packages that will be automatically installed by pip, the `raster-to-gazebo-world` command needs the `blender` executable on the PATH. This is because the blender API is used to create the Collada mesh from the raster that becomes the visual and collision meshes in the Gazebo world.
+Other than the packages that will be automatically installed by pip, the `raster-to-gazebo-world` command needs the `blender` executable on the PATH. This is because the blender API is used to create the Collada mesh from the raster that becomes the visual and collision meshes in the Gazebo world. The ANT CLI uses Blender 2.80 API. To download and place Blender 2.80 on the path follow the instructions below.
 
+```bash
+sudo apt install -y curl
+curl -o ~/Downloads/blender-2.80-linux-glibc217-x86_64.tar.bz2 https://download.blender.org/release/Blender2.80/blender-2.80-linux-glibc217-x86_64.tar.bz2
+tar -xvf ~/Downloads/blender-2.80-linux-glibc217-x86_64.tar.bz2 --directory ~/
+sudo ln -s ~/blender-2.80-linux-glibc217-x86_64/blender /usr/bin/blender
+```
 
 ## Quick start
 
