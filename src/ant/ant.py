@@ -1094,7 +1094,7 @@ def create_textured_collada_file(image_path, path_collada, path_texture, scale, 
         # Create textured Collada mesh
         if path_collada.exists():
           os.remove(path_collada)
-        proc = subprocess.run(f'blender -b --python-expr "{blender_python_script}"', shell=True, capture_output=True)
+        proc = subprocess.run(f'blender -b --python-expr "{blender_python_script}"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if proc.stderr:
             print(proc.stderr)
             sys.exit(1)
